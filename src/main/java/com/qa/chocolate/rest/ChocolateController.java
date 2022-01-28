@@ -3,8 +3,8 @@ package com.qa.chocolate.rest;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +20,20 @@ public class ChocolateController {
 
 	private List<Chocolate> choco = new ArrayList<>();
 	
+	//Response entity -> allows us to configure the status code of the response
+	
 	//CRUD
 	
 	//Create - POST
+	//Response to return instead of 200: 201 - created
 	@PostMapping("/createChoco")
-	public void createChoco(@RequestBody Chocolate c) {
+	public ResponseEntity<Chocolate> createChoco(@RequestBody Chocolate c) {
 		//service -> create
 		this.choco.add(c);
+		//get the record we just created
+		Chocolate newChoco = this.choco.get(this.choco.size()-1);
+		//                                             enum
+		return new ResponseEntity<Chocolate>(newChoco, HttpStatus.CREATED);
 	}
 	
 	//insert into chocolate(name, brand, ...) values("dairy milk", "cadbury", ...)
