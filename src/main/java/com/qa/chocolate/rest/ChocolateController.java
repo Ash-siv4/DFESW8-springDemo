@@ -33,7 +33,7 @@ public class ChocolateController {
 		//get the record we just created
 		Chocolate newChoco = this.choco.get(this.choco.size()-1);
 		//                                             enum
-		return new ResponseEntity<Chocolate>(newChoco, HttpStatus.CREATED);
+		return new ResponseEntity<>(newChoco, HttpStatus.CREATED);
 	}
 	
 	//insert into chocolate(name, brand, ...) values("dairy milk", "cadbury", ...)
