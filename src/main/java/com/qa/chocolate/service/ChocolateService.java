@@ -12,8 +12,7 @@ import com.qa.chocolate.repo.ChocolateRepo;
 public class ChocolateService implements ChocolateInterface<Chocolate> {
 
 	private ChocolateRepo r;
-	
-		
+
 	public ChocolateService(ChocolateRepo repo) {
 		super();
 		this.r = repo;
@@ -35,8 +34,8 @@ public class ChocolateService implements ChocolateInterface<Chocolate> {
 	public Chocolate update(Long id, Chocolate updateI) {
 		// TODO Auto-generated method stub
 		Optional<Chocolate> toFind = this.r.findById(id);
-		Chocolate found =  toFind.get();
-		//set all the individual attributes
+		Chocolate found = toFind.get();
+		// set all the individual attributes
 		found.setName(updateI.getName());
 		found.setBrand(updateI.getBrand());
 		found.setType(updateI.getType());
@@ -52,6 +51,12 @@ public class ChocolateService implements ChocolateInterface<Chocolate> {
 		Optional<Chocolate> toDelete = this.r.findById(id);
 		this.r.deleteById(id);
 		return toDelete.orElse(null);
+	}
+
+	public boolean remove(Long id) {
+		this.r.deleteById(id);
+		return !this.r.existsById(id);
+
 	}
 
 	@Override

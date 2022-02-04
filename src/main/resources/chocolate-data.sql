@@ -1,0 +1,1 @@
+INSERT INTO `chocolate`(`name`,`brand`,`type`,`tastiness`,`texture`,`sugar_content`) VALUES('Twirl', 'Cadbury', 'Milk', 103, 'Crumbly', 20);
