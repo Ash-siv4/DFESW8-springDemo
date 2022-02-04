@@ -46,8 +46,11 @@ public class ChocolateController {
 	}
 
 	@DeleteMapping("/removeChoco/{id}")
-	public Chocolate removeChoco(@PathVariable Long id) {
-		return this.s.delete(id);
+	public boolean remove2(@PathVariable Long id) {
+		return this.s.remove(id);
 	}
+//	public Chocolate removeChoco(@PathVariable Long id) {
+//		return this.s.delete(id);
+//	}
 
 }
