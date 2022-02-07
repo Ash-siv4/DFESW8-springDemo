@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,80 +38,68 @@ public class ChocolateServiceTest {
 	@Test
 	void testCreate() {
 //		System.out.println("create");
-
-		// given
-		// testing data
-
-		// when
+		// GIVEN
+		// testing data - has been setup in the "beforeEach" method
+		// WHEN
 		Mockito.when(this.repo.save(newChoco)).thenReturn(savedChoco);
-
-		// then
+		// THEN
 		assertThat(this.service.create(newChoco)).isEqualTo(savedChoco);
-
-		// verify
+		// VERIFY
 		Mockito.verify(this.repo, Mockito.times(1)).save(newChoco);
-
 	}
 
 	@Test
 	void testUpdate() {
-		// given - id, object
+		// GIVEN - id, object
 		Long id = 1L;
-		// New choco to update
+		// NEW CHOCO OBJECT FOR INPUT TO UPDATE METHOD
 		Chocolate toUpdate = new Chocolate("Aero", "Cadbury", "Milk", 50, "Bubbly", 20);
-		// Optional Chocolate
+		// METHOD USES AN OPTIONAL VERSION OF THE CHOCOLATE OBJECT
 		Optional<Chocolate> optChoco = Optional.of(new Chocolate(id, null, null, null, 0, null, 0));
-		// Updated Choco
+		// UPDATED VERSION:
 		Chocolate updated = new Chocolate(id, toUpdate.getName(), toUpdate.getBrand(), toUpdate.getType(),
 				toUpdate.getTastiness(), toUpdate.getTexture(), toUpdate.getSugarContent());
-
-		// when
+		// WHEN
 		Mockito.when(this.repo.findById(id)).thenReturn(optChoco);
 		Mockito.when(this.repo.save(updated)).thenReturn(updated);
-
-		// then
+		// THEN
 		assertThat(this.service.update(id, toUpdate)).isEqualTo(updated);
-
+		// VERIFY
 		Mockito.verify(this.repo, Mockito.times(1)).save(updated);
 		Mockito.verify(this.repo, Mockito.times(1)).findById(id);
-
 //		System.out.println("update");
 	}
 
-	@Test
-	void testRemove() {
-		// given
-		Long id = 10L;
-
-		// when
-		Mockito.when(this.repo.existsById(id)).thenReturn(false);
-
-		// then
-		assertThat(this.service.remove(id)).isTrue();
-
-		Mockito.verify(this.repo, Mockito.times(1)).deleteById(id);
-		Mockito.verify(this.repo, Mockito.times(1)).existsById(id);
-	}
+	// test for the alternatively used remove method - commented out since not used
+	// in the application
+//	@Test
+//	void testRemove() {
+//		// GIVEN
+//		Long id = 10L;
+//		// WHEN
+//		Mockito.when(this.repo.existsById(id)).thenReturn(false);
+//		// THEN
+//		assertThat(this.service.remove(id)).isTrue();
+//		// VERIFY
+//		Mockito.verify(this.repo, Mockito.times(1)).deleteById(id);
+//		Mockito.verify(this.repo, Mockito.times(1)).existsById(id);
+//	}
 
 	@Test
 	void testDelete() {
-		// given
+		// GIVEN
 		Long id = 1L;
 		// Optional Chocolate
 		Optional<Chocolate> optChoco = Optional.of(new Chocolate(id, null, null, null, 0, null, 0));
-		//deleted
+		// deleted
 		Chocolate deleted = optChoco.get();
-		
-		//when
+		// WHEN
 		Mockito.when(this.repo.findById(id)).thenReturn(optChoco);
-		
-		//then
+		// THEN
 		assertThat(this.service.delete(id)).isEqualTo(deleted);
-		
+		// VERIFY
 		Mockito.verify(this.repo, Mockito.times(1)).deleteById(id);
 		Mockito.verify(this.repo, Mockito.times(1)).findById(id);
-
-	
 	}
 
 }

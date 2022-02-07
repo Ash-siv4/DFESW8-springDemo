@@ -53,11 +53,12 @@ public class ChocolateService implements ChocolateInterface<Chocolate> {
 		return toDelete.orElse(null);
 	}
 
-	public boolean remove(Long id) {
-		this.r.deleteById(id);
-		return !this.r.existsById(id);
-
-	}
+	// another way to write the delete method - what you may have useds
+//	public boolean remove(Long id) {
+//		this.r.deleteById(id);
+//		return !this.r.existsById(id);
+//
+//	}
 
 	@Override
 	public Chocolate readOne(Long id) {
