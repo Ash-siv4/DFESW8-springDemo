@@ -1,7 +1,10 @@
 package com.qa.chocolate.rest;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,18 +73,44 @@ public class ChocolateControllerTest {
 		List<Chocolate> allChoco = List.of(readC);
 		String readChocoJSON = this.map.writeValueAsString(allChoco);
 
-		RequestBuilder mockReq = get("/getChoco");
+		RequestBuilder readReq = get("/getChoco");
 
 		ResultMatcher status = status().isOk();
 		ResultMatcher body = content().json(readChocoJSON);
 
-		this.mock.perform(mockReq).andExpect(status).andExpect(body);
+		this.mock.perform(readReq).andExpect(status).andExpect(body);
 
 	}
 
 	@Test
 	void updateTest() throws Exception {
+		Chocolate updateChoco = new Chocolate("Pearls", "Godiva", "Capuccino", 85, "Smooth", 60);
+		String updateChocoJSON = this.map.writeValueAsString(updateChoco);
+		Long IDupdate = 1L;
 
+		RequestBuilder updateReq = put("/updateChoco/" + IDupdate).contentType(MediaType.APPLICATION_JSON)
+				.content(updateChocoJSON);
+
+		Chocolate retUpdatedChoco = new Chocolate(1L, "Pearls", "Godiva", "Capuccino", 85, "Smooth", 60);
+		String retUpdatedChocoJSON = this.map.writeValueAsString(retUpdatedChoco);
+
+		ResultMatcher retStatus = status().isOk();
+		ResultMatcher retBody = content().json(retUpdatedChocoJSON);
+
+		this.mock.perform(updateReq).andExpect(retStatus).andExpect(retBody);
+	}
+
+	@Test
+	void deleteTest() throws Exception {
+		Chocolate deleteChoco = new Chocolate(1L, "Twirl", "Cadbury", "Milk", 103, "Crumbly", 20);
+		String deleteChocoJSON = this.map.writeValueAsString(deleteChoco);
+		
+		Long remId = 1L;
+		RequestBuilder delRequest = delete("/removeChoco/" + remId);
+		ResultMatcher Status = status().isOk();
+		ResultMatcher Body = content().json(deleteChocoJSON);
+
+		this.mock.perform(delRequest).andExpect(Status).andExpect(Body);
 	}
 
 }
